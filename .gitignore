@@ -1,0 +1,7 @@
+# node modules
+/capstone-backend/node_modules
+/capstone-frontend/node_modules
+
+# local env files
+/capstone-backend/.env
+/capstone-frontend/.env
