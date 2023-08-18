@@ -5,15 +5,11 @@ const CouponSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    name:{
-        type: String,
-        required: true
-    },
-    description:{
-        type: String,
-        required: true
-    },
     code:{
+        type: String,
+        required: true
+    },
+    discount_type:{
         type: String,
         required: true
     },

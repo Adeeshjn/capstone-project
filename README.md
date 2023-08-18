@@ -1,1 +1,2 @@
-# capstone-project
+# SmartBasket
+## This is a platform for online shopping, where the user can compare groceries from different websites and add them to the cart. The user can also view the cart and compare the pricing on different websites. The user can also view the history of the products purchased.

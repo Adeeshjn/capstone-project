@@ -4,7 +4,7 @@ const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-var fetchuser= require('../Middleware/FetchUser');
+var fetchuser = require('../Middleware/FetchUser');
 const JWT_SECRET = '!@!*VDE(#($JD(#';
 // Route 1:Create an User at '/api/auth/createuser' . No login required
 router.post('/createuser', [
@@ -31,14 +31,18 @@ router.post('/createuser', [
             email: req.body.email,
             password: secPass,
         })
-        /*.then(user => res.json(user)).catch(err=>{res.json({error:'The Email entered is not unique'})});*/
-        const data = {
-            user: {
-                id: user.id
+        if (user) {
+            const data = {
+                user: {
+                    id: user.id
+                }
             }
+            const authtoken = jwt.sign(data, JWT_SECRET);
+            res.json({ authtoken: authtoken, success: true });
         }
-        const authtoken = jwt.sign(data, JWT_SECRET);
-        res.json({authtoken:authtoken, success:true});
+        else {
+            return res.status(400).json({ error: 'Please try again' });
+        }
     }
     catch (error) {
         res.status(500).send('Internal server error');
@@ -56,7 +60,7 @@ router.post('/login', [
     }
     const { email, password } = req.body;
     try {
-        let  user = await User.findOne({ email: email });
+        let user = await User.findOne({ email: email });
         if (!user) {
             return res.status(400).json({ error: "Please try to login with right credentials" });
         }
@@ -66,11 +70,12 @@ router.post('/login', [
         }
         const data = {
             user: {
-                id: user.id
+                id: user.id,
+                name: user.name
             }
-        };
+        }
         const authtoken = jwt.sign(data, JWT_SECRET);
-        res.json({authtoken:authtoken, success:true});
+        res.json({ authtoken: authtoken, success: true });
     } catch (error) {
         res.status(500).send('Internal server error');
     }
