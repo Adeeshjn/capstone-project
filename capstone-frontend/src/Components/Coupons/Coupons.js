@@ -32,9 +32,11 @@ const Coupons = () => {
 
             <h1 className='mx-4 my-3'>Coupons</h1>
             <div className="card mx-4 my-3" >
-                <button type="button" className="btn btn-primary mx-4 my-3" data-bs-toggle="modal" data-bs-target="#addCouponModal">
-                    Add Coupon
-                </button>
+                <div className="mb-3 mx-3">
+                    <button type="button" className="btn btn-primary mx-4 my-3" data-bs-toggle="modal" data-bs-target="#addCouponModal">
+                        Add Coupon
+                    </button>
+                </div>
 
                 <table className="table">
                     <thead>
