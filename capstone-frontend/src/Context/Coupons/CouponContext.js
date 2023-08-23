@@ -19,18 +19,26 @@ const CouponContextProvider = ({ children }) => {
     }
 
     const addCoupon = async (coupon) => {
-        const response = await fetch("http://localhost:5000/api/coupons/addcoupon",
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': localStorage.getItem('token')
-                },
-                body: JSON.stringify(coupon)
-            });
-        const json = await response.json();
-        console.log(json);
-        setCoupons([...coupons, coupon]);
+        try {
+            const response = await fetch("http://localhost:5000/api/coupons/addcoupon",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': localStorage.getItem('token')
+                    },
+                    body: JSON.stringify(coupon)
+                });
+            const json = await response.json();
+            console.log(json);
+            if (response.status === 200) {
+                setCoupons([...coupons, coupon]);
+            }
+            return response.status;
+        }catch(error){
+            console.log(error);
+            return 500
+        }
     }
 
     const updateCoupon = async (id, coupon) => {
@@ -66,7 +74,7 @@ const CouponContextProvider = ({ children }) => {
         console.log(json);
         for (let i = 0; i < coupons.length; i++) {
             if (coupons[i]._id === id) {
-                coupons.splice(i, 1);
+                setCoupons(coupons.filter((coupon) => { return coupon._id !== id }));
                 break;
             }
         }

@@ -10,6 +10,7 @@ import Login from './Components/Authentication/Login';
 import SignUp from './Components/Authentication/SignUp';
 import Home from './Components/Home';
 import CouponContextProvider from './Context/Coupons/CouponContext';
+import Coupons from './Components/Coupons/Coupons';
 
 
 function App() {
@@ -27,6 +28,9 @@ function App() {
                     </Route>
                     <Route exact path="/">
                         <Home />
+                    </Route>
+                    <Route exact path="/coupons">
+                        <Coupons />
                     </Route>
                     <Route exact path="/about">
                         <h1>About</h1>

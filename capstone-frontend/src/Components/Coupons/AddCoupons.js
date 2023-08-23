@@ -4,25 +4,33 @@ import { CouponContext } from '../../Context/Coupons/CouponContext'
 const AddCoupons = () => {
     const { addCoupon } = useContext(CouponContext);
     const [coupon, setcoupon] = useState({
+        website: '',
         code: '',
         discount_type: '',
         discount: '',
         expiry: ''
     });
     const handleChange = (e) => {
-        console.log(e.target.value);
         setcoupon({ ...coupon, [e.target.name]: e.target.value });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        addCoupon(coupon);
+        const status = await addCoupon(coupon);
+        if(status === 200){
+            alert("Coupon Added Successfully");
+            e.target.reset();
+        }
     }
     return (
         <div>
             <h2 className='mx-4 my-3'>Add Coupons</h2>
             <div className="card mx-4 my-3" >
                 <form onSubmit={handleSubmit}>
+                    <div className="mb-3 mx-3">
+                        <label htmlFor="website" className="form-label">Coupon Website</label>
+                        <input type="text" className="form-control" name="website" id="website" onChange={handleChange} />
+                    </div>
                     <div className="mb-3 mx-3">
                         <label htmlFor="code" className="form-label">Coupon Code</label>
                         <input type="text" className="form-control" name="code" id="code" onChange={handleChange} />

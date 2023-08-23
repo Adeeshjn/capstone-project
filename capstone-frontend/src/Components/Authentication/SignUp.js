@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './Login.css'
 import { useHistory } from 'react-router-dom'
+import jwt_decode from "jwt-decode";
 
 const SignUp = () => {
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "" })
@@ -21,8 +22,11 @@ const SignUp = () => {
         if (json.success) {
             // Save the auth token and redirect
             localStorage.setItem('token', json.authtoken);
+            const decoded = jwt_decode(json.authtoken);
+            localStorage.setItem('user', decoded.user.name);
+            
             history.push("/");
-
+            
         }
         else {
             alert("Invalid credentials");

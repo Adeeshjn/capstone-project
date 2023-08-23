@@ -20,7 +20,7 @@ router.post("/addcoupon", FetchUser, [
     body("code", "Code Must be atleast 3 characters long").isLength({ min: 3 })
 ], async (req, res) => {
     try {
-        const { code, discount_type, discount, expiry } = req.body;
+        const { code, discount_type, discount, expiry, website } = req.body;
         // If there are errors, return Bad request and the errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -28,7 +28,7 @@ router.post("/addcoupon", FetchUser, [
         }
         // Create a new coupon
         const coupon = new Coupon({
-            code, discount_type, discount, expiry, user: req.user.id
+            code, discount_type, discount, expiry, user: req.user.id, website
         })
         const savedCoupon = await coupon.save();
         res.json(savedCoupon);
@@ -41,13 +41,14 @@ router.post("/addcoupon", FetchUser, [
 // ROUTE 3: Update an existing coupon: PUT "/api/coupons/updatecoupon". Login required
 router.put("/updatecoupon/:id", FetchUser, async (req, res) => {
     try {
-        const { code, discount_type, discount, expiry } = req.body;
+        const { code, discount_type, discount, expiry, website } = req.body;
         // Create a new coupon
         const newCoupon = {};
         if (code) { newCoupon.code = code };
         if (discount_type) { newCoupon.discount_type = discount_type };
         if (discount) { newCoupon.discount = discount };
         if (expiry) { newCoupon.expiry = expiry };
+        if (website) { newCoupon.website = website };
         
         // Find the coupon to be updated and update it
         let coupon = await Coupon.findById(req.params.id);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './Login.css'
 import { useHistory } from 'react-router-dom'
-
+import jwt_decode from "jwt-decode";
 
 
 const Login = (props) => {
@@ -23,8 +23,10 @@ const Login = (props) => {
             // Save the auth token and redirect
             console.log(json);
             localStorage.setItem('token', json.authtoken);
+            const decoded = jwt_decode(json.authtoken);
+            console.log(decoded);
+            localStorage.setItem('user', decoded.user.name);
             history.push("/");
-
         }
         else {
             alert("Invalid credentials");
